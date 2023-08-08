@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    {% block stylesheets %}
+        <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('assets/favicon/apple-icon-57x57.png')}}">
+        <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('assets/favicon/apple-icon-60x60.png')}}">
+        <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('assets/favicon/apple-icon-72x72.png')}}">
+        <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/favicon/apple-icon-76x76.png')}}">
+        <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('assets/favicon/apple-icon-114x114.png')}}">
+        <link rel="apple-touch-icon" sizes="120x120" href="{{ asset('assets/favicon/apple-icon-120x120.png')}}">
+        <link rel="apple-touch-icon" sizes="144x144" href="{{ asset('assets/favicon/apple-icon-144x144.png')}}">
+        <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('assets/favicon/apple-icon-152x152.png')}}">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/favicon/apple-icon-180x180.png')}}">
+        <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('assets/favicon/android-icon-192x192.png')}}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/favicon/favicon-32x32.png')}}">
+        <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('assets/favicon/favicon-96x96.png')}}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/favicon/favicon-16x16.png')}}">
+        <link rel="manifest" href="{{ asset('assets/favicon/manifest.json')}}">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="assets/favicon/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        <!-- Vendors styles-->
+        <link rel="stylesheet" href="{{ asset('vendors/simplebar/css/simplebar.css')}}">
+        <link rel="stylesheet" href="{{ asset('css/vendors/simplebar.css')}}">
+        <!-- Main styles for this application-->
+        <link href="{{ asset('css/style.css')}}" rel="stylesheet">
+        <!-- We use those styles to show code examples, you should remove them in your application.-->
+        <link href="{{ asset('css/examples.css')}}" rel="stylesheet">
+        <link href="{{ asset('vendors/@coreui/chartjs/css/coreui-chartjs.css')}}" rel="stylesheet">
+        <script src="{{ asset('vendors/@coreui/coreui/js/coreui.bundle.min.js')}}"></script>
+        <script src="{{ asset('vendors/simplebar/js/simplebar.min.js')}}"></script>
+        <!-- Plugins and scripts required by this view-->
+        <script src="{{ asset('vendors/chart.js/js/chart.min.js')}}"></script>
+        <script src="{{ asset('vendors/@coreui/chartjs/js/coreui-chartjs.js')}}"></script>
+        <script src="{{ asset('vendors/@coreui/utils/js/coreui-utils.js')}}"></script>
+        <script src="{{ asset('js/jquery.js') }}"></script>
+    {% endblock %}
+    {% block javascripts %}{% endblock %}
+</head>
+<body>
+<div class="wrapper">
+
+        {{ include('_partials/navbar.html.twig') }}
+        {{ include('_partials/sidebar.html.twig') }}
+
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class=" content-header container-fluid row mb-2 d-flex justify-content-between">
+            <div>
+                <h1 class="m-0">{% block page_title %}{% endblock %}</h1>
+            </div>
+            <div>
+                <h3 class="m-0">{% block create %}{% endblock %}</h3>
+            </div>
+        </div>
+        <section class="content">
+            <div class="container-fluid">
+                {% block body %}{% endblock %}
+            </div>
+        </section>
+    </div>
+
+        {{ include('_partials/footer.html.twig') }}
+
+</div>
+</body>
+</html>
