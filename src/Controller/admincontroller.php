@@ -12,7 +12,7 @@ class admincontroller extends AbstractController // extend this controller will 
 {
     //almost use attribute to create route syntax: #[]-- way to configuration to code.
     //when we use attribute we must have a co-responding use statement for at the top of the file.
-    #[Route('/')] // inside the route / will be the url to our page.
+    #[Route('/deshboard', name: 'app_deshboard')] // inside the route / will be the url to our page.
         // this route defines the url in points to this controller bcz this written above to the controller.
         // '/' or no slash is the same for a homepage.
     public function homepage() : Response // bcz our controller always return response obj,you can add return type to the function .. its optional.
@@ -35,20 +35,5 @@ class admincontroller extends AbstractController // extend this controller will 
             'tracks' => $tracks,
 
         ]);
-        // a controller must always return a response object . render is just sourtcut to render a tempmlate. keep that
-        // string and put into a response object. render rturns a response.
-    }
-
-    // we can make wildcard opional. by make it null.
-    #[Route('/browse/{slug}')] // slug is just technical word for a url safe name.we can put anything inside brace.
-    public function browse(string $slug = null) : Response
-    {
-        if($slug) {
-            $title = 'Genre : '. u(str_replace('-', ' ', $slug))->title(true);
-        } else {
-            $title = 'All Generes';
-        }
-
-        return new Response($title);
     }
 }

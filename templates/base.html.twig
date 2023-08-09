@@ -5,8 +5,8 @@
     <title>{% block title %}Welcome!{% endblock %}</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
     {% block stylesheets %}
-{#        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">#}
-{#        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">#}
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
         <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('dist/assets/favicon/apple-icon-57x57.png')}}">
         <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('dist/assets/favicon/apple-icon-60x60.png')}}">
         <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('dist/assets/favicon/apple-icon-72x72.png')}}">
@@ -44,8 +44,10 @@
 </head>
 <body>
 <div class="wrapper">
-        {{ include('_partials/navbar.html.twig') }}
+    {% if app.user %}
         {{ include('_partials/sidebar.html.twig') }}
+        {{ include('_partials/navbar.html.twig') }}
+    {% endif %}
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <div class=" content-header container-fluid row mb-2 d-flex justify-content-between">
@@ -62,7 +64,9 @@
             </div>
         </section>
     </div>
+    {% if app.user %}
         {{ include('_partials/footer.html.twig') }}
+    {% endif %}
 </div>
 </body>
 </html>
