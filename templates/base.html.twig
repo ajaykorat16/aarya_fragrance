@@ -64,9 +64,9 @@
             </div>
         </section>
     </div>
-    {% if app.user %}
-        {{ include('_partials/footer.html.twig') }}
-    {% endif %}
 </div>
+{% if app.user %}
+    {{ include('_partials/footer.html.twig') }}
+{% endif %}
 </body>
 </html>

@@ -3,7 +3,7 @@
 {% block title %}Homepage | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h1>{{ title }}</h1>
+    <h5>{{ title ~ "Login AS " ~ app.user.roles |default('ROLE_USER')}}</h5>
 
     {# this is comment syntax in twig#}
     {# 'something' -- this is string syntax #}
