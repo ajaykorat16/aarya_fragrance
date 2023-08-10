@@ -38,8 +38,8 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^(/(login|register|reset-password)), roles: PUBLIC_ACCESS }
-#        - { path: ^/products/, roles: ROLE_USER }
-#        - { path: ^/category/, roles: ROLE_ADMIN }
+        - { path: ^/product/, roles: ROLE_ADMIN }
+        - { path: ^/category/, roles: ROLE_ADMIN }
 #        - { path: ^/country/, roles: ROLE_ADMIN }
 
 when@test:

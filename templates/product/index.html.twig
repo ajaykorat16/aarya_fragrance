@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Products index{% endblock %}
+{% block page_title %}Products index
+{% endblock %}
+{% block create %}
+    <form action="{{ path('app_product_new') }}">
+        <button class="btn btn-primary" type="submit">Create new</button>
+    </form>
+{% endblock %}
+
+{% block body %}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Short_description</th>
+                <th>Price</th>
+                <th>Image</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for product in products %}
+            <tr>
+                <td>{{ product.id }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.ShortDescription }}</td>
+                <td>{{ product.price }}</td>
+                <td>{{ product.image }}</td>
+                <td>
+                    <a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn btn-info">Show</a>
+                    <a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-danger">Edit</a>
+                    {{ include('product/_delete_form.html.twig') }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

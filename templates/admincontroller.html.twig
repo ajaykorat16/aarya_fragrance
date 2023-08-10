@@ -3,16 +3,11 @@
 {% block title %}Homepage | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h5>{{ title ~ "Login AS " ~ app.user.roles |default('ROLE_USER')}}</h5>
-
-    {# this is comment syntax in twig#}
-    {# 'something' -- this is string syntax #}
-    {# something -- this is variable syntax #}
-    {# something() -- this is function syntax#}
+    {% for role in app.user.roles %}
+    <h5>{{ title ~ "Login AS " ~ role }}</h5>
+    {% endfor %}
     <div>
         Tracks:
-
-        {# {{ dump(tracks) }} -- to dump array#}
         <ul>
 
             {% for track in tracks %}
