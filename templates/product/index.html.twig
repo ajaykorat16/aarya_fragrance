@@ -1,39 +1,39 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Products index{% endblock %}
-{% block page_title %}Products index
+{% block page_title %}<h3>Products index</h3>
 {% endblock %}
 {% block create %}
     <form action="{{ path('app_product_new') }}">
-        <button class="btn btn-primary" type="submit">Create new</button>
+        <button class="btn btn-primary" type="submit">Create</button>
     </form>
 {% endblock %}
 
 {% block body %}
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Short_description</th>
-                <th>Price</th>
-                <th>Image</th>
+<div class="table-responsive">
+    <table class="table border mb-0">
+        <thead class="table-dark">
+            <tr class="align-middle">
+                <th class="text-center">Id</th>
+                <th class="text-center">Name</th>
+                <th class="text-center">Short_description</th>
+                <th class="text-center">Price</th>
+                <th class="text-center">Image</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for product in products %}
-            <tr>
-                <td>{{ product.id }}</td>
-                <td>{{ product.name }}</td>
-                <td>{{ product.ShortDescription }}</td>
-                <td>{{ product.price }}</td>
-                <td>{{ product.image }}</td>
+            <tr class="align-middle">
+                <td class="text-center">{{ product.id }}</td>
+                <td class="text-center">{{ product.name }}</td>
+                <td class="text-center">{{ product.ShortDescription }}</td>
+                <td class="text-center">{{ product.price }}</td>
+                <td class="text-center">{{ product.image }}</td>
                 <td>
-                    <a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn btn-info">Show</a>
-                    <a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-danger">Edit</a>
-                    {{ include('product/_delete_form.html.twig') }}
+                    <a href="{{ path('app_product_show', {'id': product.id}) }}"><i class="fa-solid fa-eye"></i></a>
+                    <a href="{{ path('app_product_edit', {'id': product.id}) }}"><i class="fa-solid fa-pencil"></i></a>
+                    <a href="{{ path('app_product_delete', {'id': product.id}) }}"><i class="fa-solid fa-trash"></i></a>
                 </td>
             </tr>
         {% else %}
@@ -43,4 +43,5 @@
         {% endfor %}
         </tbody>
     </table>
+</div>
 {% endblock %}

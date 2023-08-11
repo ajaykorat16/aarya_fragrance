@@ -3,9 +3,12 @@
 {% block title %}New Product{% endblock %}
 
 {% block body %}
-    <h1>Create new Product</h1>
 
+    <h2 class="text-uppercase text-center">Create new Product</h2>
+    <div class="border mb-10 bg-light">
     {{ include('product/_form.html.twig') }}
 
-    <a href="{{ path('app_product_index') }}">back to list</a>
+        <a href="{{ path('app_product_index') }}" class=" text-uppercase">back to list</a>
+    </div>
+
 {% endblock %}

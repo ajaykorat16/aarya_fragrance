@@ -30,7 +30,7 @@
         </ul>
         <ul class="header-nav ms-3">
             <li class="nav-item dropdown"><a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                    <div class="avatar avatar-md"><img class="avatar-img" src="dist/assets/img/avatars/8.jpg" alt="user@email.com"></div>
+                    <div class="avatar avatar-md"><img class="avatar-img" src="/dist/assets/img/avatars/8.jpg" alt="user@email.com"></div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end pt-0">
                     <div class="dropdown-header bg-light py-2">
@@ -75,13 +75,16 @@
         </ul>
     </div>
     <div class="header-divider"></div>
-    <div class="container-fluid">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb my-0 ms-2">
-                <li class="breadcrumb-item"><span><a href="{{ path('app_product_index') }}">Product</a></span></li>
-                <li class="breadcrumb-item active"><span><a href="{{ path('app_logout') }}">Categoty</a></span></li>
-                <li class="breadcrumb-item active"><span> <a href="{{ path('app_logout') }}">Logout</a></span></li>
-            </ol>
-        </nav>
+    <div class="container-fluid d-flex justify-content-between">
+
+            <div class="breadcrumb my-0 ms-2">
+                    <a class="breadcrumb-item" href="{{ path('app_product_index') }}">Product</a>
+                    <a class="breadcrumb-item " href="{{ path('app_category_index') }}">Categoty</a>
+            </div>
+                <div class="ms-3">
+                    <a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+
+
     </div>
 </header>

@@ -20,7 +20,7 @@ class ProductController extends AbstractController
     #[Route('/list', name: 'app_product_index')]
     public function index(ProductRepository $productRepository): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         return $this->render('product/index.html.twig', [
             'products' => $productRepository->findAll(),
@@ -103,13 +103,11 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_product_delete', methods: ['POST'])]
-    public function delete(Request $request, Product $product, EntityManagerInterface $entityManager): Response
+    #[Route('/delete/{id}', name: 'app_product_delete')]
+    public function delete(Product $product, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->request->get('_token'))) {
             $entityManager->remove($product);
             $entityManager->flush();
-        }
 
         return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
     }
