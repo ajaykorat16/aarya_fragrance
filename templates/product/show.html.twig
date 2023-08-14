@@ -34,9 +34,8 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_product_index') }}">back to list </a>
+    <a href="{{ path('app_product_edit', {'id': product.id}) }}">edit</a>
 
-    <a href="{{ path('app_product_edit', {'id': product.id}) }}"><i class="fa-solid fa-pencil"></i></a>
+    <a href="{{ path('app_product_delete', {'id': product.id}) }}">Delete</a>
 
-    <a href="{{ path('app_product_delete', {'id': product.id}) }}"><i class="fa-solid fa-trash"></i></a>
 {% endblock %}

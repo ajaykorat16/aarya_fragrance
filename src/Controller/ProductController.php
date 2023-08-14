@@ -109,6 +109,6 @@ class ProductController extends AbstractController
             $entityManager->remove($product);
             $entityManager->flush();
 
-        return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_product_index');
     }
 }

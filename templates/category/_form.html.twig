@@ -1,15 +1,14 @@
 {{ form_start(form, {'attr' : {'novalidate' : 'novalidate'}}) }}
-<div class="tab-content rounded-bottom w-50 ">
-    <div class="tab-pane p-3 active preview">
-        <ul class="list-group mb-3">
-            <li class="list-group-item list-group-item-secondary">
-                <div class="form-group">
-                    {{ form_label(form.name) }}
-                    {{ form_widget(form.name) }}
-                </div>
-            </li>
-        </ul>
-        <button class="btn btn-dark">{{ button_label|default('Save') }}</button>
+<div class="row justify-content-evenly mt-4 ms-3 me-5">
+    <div class="form-group mb-4">
+        {{ form_label(form.name) }}<br>
+        {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+    </div>
+</div>
+
+<div class="row justify-content-evenly ms-3">
+    <div class="col-12">
+        <button class="btn btn-dark mt-lg-3 w-5 mb-3">{{ button_label|default('Save') }}</button>
     </div>
 </div>
 {{ form_end(form) }}
