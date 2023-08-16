@@ -24,6 +24,10 @@
                 <td>{{ product.price }}</td>
             </tr>
             <tr>
+                <th>Category_id</th>
+                <td>{{ product.category.name }}</td>
+            </tr>
+            <tr>
                 <th>Image</th>
                 <td>
                     <div>
@@ -34,8 +38,6 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_product_edit', {'id': product.id}) }}">edit</a>
-
-    <a href="{{ path('app_product_delete', {'id': product.id}) }}">Delete</a>
+    <a class="btn btn-dark" href="{{ path('app_product_index') }}">Back to list</a>
 
 {% endblock %}

@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\CustomEvent\ProductEvent;
 use App\Entity\Product;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;

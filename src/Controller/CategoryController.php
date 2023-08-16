@@ -73,8 +73,14 @@ class CategoryController extends AbstractController
     #[Route('/delete/{id}', name: 'app_category_delete')]
     public function delete(Category $category, EntityManagerInterface $entityManager): Response
     {
-        $entityManager->remove($category);
-        $entityManager->flush();
+        try {
+            $entityManager->remove($category);
+            $entityManager->flush();
+        } catch (\Exception)
+        {
+            $this->addFlash('warning',
+                'Warning! You can not delete this category because it has products');
+        }
 
         return $this->redirectToRoute('app_category_index');
     }

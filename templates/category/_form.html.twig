@@ -9,6 +9,7 @@
 <div class="row justify-content-evenly ms-3">
     <div class="col-12">
         <button class="btn btn-dark mt-lg-3 w-5 mb-3">{{ button_label|default('Save') }}</button>
+        <a class="btn btn-dark" href="{{ path('app_category_index') }}">Cancel</a>
     </div>
 </div>
 {{ form_end(form) }}
