@@ -36,23 +36,27 @@ class ProductController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $image = $form->get('image')->getData();
 
-            if ($image) {
-                $originalName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalName);
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $image->guessExtension();
+            foreach ($image as $images) {
 
-                try {
-                    $image->move($this->getParameter('image_directory'), $newFilename);
-                } catch (FileException) {
-                    return new Response('something went wrong with upload file...!!');
+                if ($images) {
+                    $originalName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+                    $safeFilename = $slugger->slug($originalName);
+                    $newFilename = $safeFilename . '-' . uniqid() . '.' . $images->guessExtension();
+
+                    try {
+                        $images->move($this->getParameter('image_directory'), $newFilename);
+                    } catch (FileException) {
+                        return new Response('something went wrong with upload file...!!');
+                    }
+
+                    $product->setImage($newFilename);
+                    $entityManager->persist($product);
+                    $entityManager->flush();
                 }
-
-                $product->setImage($newFilename);
-                $entityManager->persist($product);
-                $entityManager->flush();
-
                 return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
             }
+
+
         }
 
         return $this->render('product/new.html.twig', [

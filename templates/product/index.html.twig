@@ -19,7 +19,7 @@
                 <th class="text-center">Short_description</th>
                 <th class="text-center">Price</th>
                 <th class="text-center">Category</th>
-                <th class="text-center">Image</th>
+{#                <th class="text-center">Image</th>#}
                 <th>actions</th>
             </tr>
         </thead>
@@ -31,7 +31,7 @@
                 <td class="text-center">{{ product.ShortDescription }}</td>
                 <td class="text-center">{{ product.price }}</td>
                 <td class="text-center">{{ product.category.name }}</td>
-                <td class="text-center">{{ product.image }}</td>
+{#                <td class="text-center">{{ product.image }}</td>#}
                 <td>
                     <a href="{{ path('app_product_show', {'id': product.id}) }}"><i class="fa-solid fa-eye"></i></a>
                     <a href="{{ path('app_product_edit', {'id': product.id}) }}"><i class="fa-solid fa-pencil"></i></a>

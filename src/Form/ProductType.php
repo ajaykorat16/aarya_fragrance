@@ -6,12 +6,11 @@ use App\Entity\Category;
 use App\Entity\Product;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -38,13 +37,12 @@ class ProductType extends AbstractType
                     new Length(['min' => 2]),
                 ],
             ])
-            ->add('image', FileType::class, [
-                'mapped' => false,
-                // 'required' => is_null($builder->getData()->getId()),
-                'constraints' => [
-                    new NotBlank(),
-                    new Image(),
-                ],
+            ->add('image', CollectionType::class, [
+                'entry_type' => ImageType::class,
+                'entry_options' => ['label' => false],
+                'by_reference' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
             ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
