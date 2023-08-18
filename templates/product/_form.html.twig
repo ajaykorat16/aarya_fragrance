@@ -19,8 +19,8 @@
         {{ form_label(form.category) }}<br>
         {{ form_widget(form.category, {'attr': {'class': 'form-control'}}) }}
     </div>
-    <div class="image" id="image_list" data-prototype="{{ form_widget(form.image.vars.prototype)|e('html_attr') }}">
-        {% for imageForm in form.image %}
+    <div class="image" id="image_list" data-prototype="{{ form_widget(form.images.vars.prototype)|e('html_attr') }}">
+        {% for imageForm in form.images %}
             <div class="panel panel-warning">
                 <div class="panel-body">
                     {{ form_row(imageForm.image_name) }}

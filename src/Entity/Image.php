@@ -16,7 +16,7 @@ class Image
     #[ORM\Column(length: 255)]
     private ?string $image_name = null;
 
-    #[ORM\ManyToOne(inversedBy: 'image')]
+    #[ORM\ManyToOne(inversedBy: 'images')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $product = null;
 

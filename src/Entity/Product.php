@@ -29,7 +29,7 @@ class Product
     private ?Category $category = null;
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Image::class, cascade: ["persist"], orphanRemoval:true)]
-    private Collection $image;
+    private Collection $images;
 
     public function __construct()
     {
@@ -92,27 +92,27 @@ class Product
     /**
      * @return Collection<int, Image>
      */
-    public function getImage(): Collection
+    public function getImages(): Collection
     {
-        return $this->image;
+        return $this->images;
     }
 
-    public function addImage(Image $image): self
+    public function addImages(Image $images): self
     {
-        if (!$this->image->contains($image)) {
-            $this->image->add($image);
-            $image->setProduct($this);
+        if (!$this->images->contains($images)) {
+            $this->images->add($images);
+            $images->setProduct($this);
         }
 
         return $this;
     }
 
-    public function removeImage(Image $image): self
+    public function removeImages(Image $images): self
     {
-        if ($this->image->removeElement($image)) {
+        if ($this->images->removeElement($images)) {
             // set the owning side to null (unless already changed)
-            if ($image->getProduct() === $this) {
-                $image->setProduct(null);
+            if ($images->getProduct() === $this) {
+                $images->setProduct(null);
             }
         }
 

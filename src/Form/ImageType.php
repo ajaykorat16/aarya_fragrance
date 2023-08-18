@@ -6,9 +6,7 @@ use Symfony\Component\Form\AbstractType;
 
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Image;
-use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\File;
 
 class ImageType extends AbstractType
 {
@@ -19,18 +17,18 @@ class ImageType extends AbstractType
                 'mapped' => false,
                 'multiple' =>true,
                 'constraints' => [
-                    new Image(),
-                    new NotBlank(),
-                    ],
+                    new File([
+                        'mimeTypes' => [
+                            "image/png",
+                            "image/jpg",
+                            "image/jpeg",
+                            "image/gif" ],
+                        'mimeTypesMessage' => 'Please upload a valid PDF document',
+                    ]),
+                ],
+
             ])
 //            ->add('product')
         ;
-    }
-
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'data_class' => Image::class,
-        ]);
     }
 }

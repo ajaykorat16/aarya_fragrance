@@ -37,10 +37,11 @@ class ProductType extends AbstractType
                     new Length(['min' => 2]),
                 ],
             ])
-            ->add('image', CollectionType::class, [
+            ->add('images', CollectionType::class, [
                 'entry_type' => ImageType::class,
                 'entry_options' => ['label' => false],
                 'by_reference' => false,
+                'mapped' =>false,
                 'allow_add' => true,
                 'allow_delete' => true,
             ])
