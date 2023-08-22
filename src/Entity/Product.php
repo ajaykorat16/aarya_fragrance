@@ -33,7 +33,7 @@ class Product
 
     public function __construct()
     {
-        $this->image = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -97,22 +97,22 @@ class Product
         return $this->images;
     }
 
-    public function addImages(Image $images): self
+    public function addImage(Image $image): self
     {
-        if (!$this->images->contains($images)) {
-            $this->images->add($images);
-            $images->setProduct($this);
+        if (!$this->images->contains($image)) {
+            $this->images->add($image);
+            $image->setProduct($this);
         }
 
         return $this;
     }
 
-    public function removeImages(Image $images): self
+    public function removeImage(Image $image): self
     {
-        if ($this->images->removeElement($images)) {
+        if ($this->images->removeElement($image)) {
             // set the owning side to null (unless already changed)
-            if ($images->getProduct() === $this) {
-                $images->setProduct(null);
+            if ($image->getProduct() === $this) {
+                $image->setProduct(null);
             }
         }
 

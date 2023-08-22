@@ -35,26 +35,25 @@ class ProductController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $images = $form->get('images')->getData();
-            //dd($form);
-            foreach ($images as $image) {
-            //dd($image);
-                    $originalName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+
+                foreach ($images as $image) {
+                    $productImage = $image['image'][0];
+                    $originalName = pathinfo($productImage->getClientOriginalName(), PATHINFO_FILENAME);
                     $safeFilename = $slugger->slug($originalName);
-                    $newFilename = $safeFilename . '-' . uniqid() . '.' . $image->guessExtension();
+                    $newFilename = $safeFilename . '-' . uniqid() . '.' . $productImage->guessExtension();
+
+                    $imageEntity = new Image();
+                    $imageEntity->setImageName($newFilename);
 
                     try {
-                        $imageEntity = new Image();
-                        $imageEntity->setFilename($newFilename);
-                        $image->move($this->getParameter('image_directory'), $newFilename);
+                        $productImage->move($this->getParameter('image_directory'), $newFilename);
                     } catch (\FileException) {
                         return new Response('something went wrong with upload file...!!');
                     }
-
-                    $product->setImage($imageEntity);
+                    $product->addImage($imageEntity);
                     $entityManager->persist($product);
-                    $entityManager->flush();
-
-            }
+                }
+            $entityManager->flush();
             return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -82,24 +81,24 @@ class ProductController extends AbstractController
             $images = $form->get('images')->getData();
 
             foreach ($images as $image) {
-
-                $originalName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+                $productImage = $image['image'][0];
+                $originalName = pathinfo($productImage->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalName);
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $image->guessExtension();
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $productImage->guessExtension();
+
+                $imageEntity = new Image();
+                $imageEntity->setImageName($newFilename);
 
                 try {
-                    $imageEntity = new Image();
-                    $imageEntity->setFilename($newFilename);
                     $image->move($this->getParameter('image_directory'), $newFilename);
                 } catch (\FileException) {
                     return new Response('something went wrong with upload file...!!');
                 }
 
-                $product->setImage($imageEntity);
-                $entityManager->flush();
-
-                return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
+                $product->addImage($imageEntity);
             }
+            $entityManager->flush();
+            return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('product/edit.html.twig', [
