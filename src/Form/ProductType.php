@@ -42,7 +42,8 @@ class ProductType extends AbstractType
                 'entry_type' => ImageType::class,
                 'entry_options' => ['label' => false],
                 'by_reference' => false,
-                'label' =>false,
+                'label' => false,
+                'mapped' => false,
                 'allow_add' => true,
                 'allow_delete' => true,
             ])

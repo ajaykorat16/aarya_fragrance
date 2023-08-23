@@ -34,7 +34,7 @@ function addnewform() {
 
 function addRemoveButton($panel) {
 
-    var $removeButton = $('<a href="#" class="btn btn-danger">Remove</a>');
+    var $removeButton = $('<a href="#"><i class="fa fa-trash text-dark"></i></a>');
     var $panelFooter = $('<div class="panel-footer"></div>').append($removeButton);
 
     $removeButton.click(function (e) {

@@ -97,8 +97,8 @@ class ProductController extends AbstractController
 
                 $product->addImage($imageEntity);
             }
-            $entityManager->flush();
-            return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
+                $entityManager->flush();
+                return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('product/edit.html.twig', [
