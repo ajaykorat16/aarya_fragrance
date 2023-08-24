@@ -1,5 +1,5 @@
 var $collectionHolder;
-var $addimage = $('<a href="#" class="btn btn-info">Add Image</a>');
+var $addimage = $('<a href="#" class="btn btn-dark">Add Image</a>');
 
 $(document).ready(function () {
 
@@ -24,26 +24,17 @@ function addnewform() {
     newform = newform.replace(/__name__/g, index);
     $collectionHolder.data('index', index+1);
 
-    var $panel = $('<div class="panel panel-warning"><div class="panel-heading"></div></div>');
-    var $panelBody = $('<div class="panel-body"></div>').append(newform);
+    var $panel = $('<div class="panel panel-warning"></div>');
+    var $panelBody = $('<div class="panel-body d-flex align-items-center mb-3"></div>').append(newform);
 
-    $panel.append($panelBody);
-    addRemoveButton($panel);
-    $addimage.before($panel);
-}
-
-function addRemoveButton($panel) {
-
-    var $removeButton = $('<a href="#"><i class="fa fa-trash text-dark"></i></a>');
-    var $panelFooter = $('<div class="panel-footer"></div>').append($removeButton);
-
-    $removeButton.click(function (e) {
+    $panelBody.append($('<a href="#"><i class="fa fa-trash text-dark d-inline-block"></i></a>').click(function (e) {
         e.preventDefault();
         $(e.target).parents('.panel').slideUp(1000, function () {
             $(this).remove();
-        })
-    });
+        });
+    }));
 
-    $panel.append($panelFooter);
+    $panel.append($panelBody);
+    $addimage.before($panel);
 
 }

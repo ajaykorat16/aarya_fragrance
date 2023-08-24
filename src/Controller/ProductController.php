@@ -32,9 +32,9 @@ class ProductController extends AbstractController
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
+        $images = $form->get('images')->getData();
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $images = $form->get('images')->getData();
 
                 foreach ($images as $image) {
                     $productImage = $image['image'][0];
@@ -76,9 +76,9 @@ class ProductController extends AbstractController
     {
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
-
+        $images = $form->get('images')->getData();
+        //dd($product);
         if ($form->isSubmitted() && $form->isValid()) {
-            $images = $form->get('images')->getData();
 
             foreach ($images as $image) {
                 $productImage = $image['image'][0];
