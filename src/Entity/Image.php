@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ImageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
 class Image
@@ -14,7 +15,9 @@ class Image
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $image_name = null;
+    private ?string $imageName = null;
+
+    private ?UploadedFile $image;
 
     #[ORM\ManyToOne(inversedBy: 'images')]
     #[ORM\JoinColumn(nullable: false)]
@@ -27,12 +30,24 @@ class Image
 
     public function getImageName(): ?string
     {
-        return $this->image_name;
+        return $this->imageName;
     }
 
-    public function setImageName(?string $image_name): self
+    public function setImageName(?string $imageName): self
     {
-        $this->image_name = $image_name;
+        $this->imageName = $imageName;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?UploadedFile $uploadedFile): self
+    {
+        $this->image = $uploadedFile;
 
         return $this;
     }
@@ -42,7 +57,7 @@ class Image
         return $this->product;
     }
 
-    public function setProduct(?Product $product): static
+    public function setProduct(?Product $product): self
     {
         $this->product = $product;
 

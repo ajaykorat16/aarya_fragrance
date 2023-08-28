@@ -8,6 +8,9 @@ use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,6 +19,10 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 #[Route('/product')]
 class ProductController extends AbstractController
 {
+    public function __construct(
+        private ParameterBagInterface $parameterBag
+    ) {}
+
     #[Route('/list', name: 'app_product_index')]
     public function index(ProductRepository $productRepository): Response
     {
@@ -47,8 +54,8 @@ class ProductController extends AbstractController
 
                     try {
                         $productImage->move($this->getParameter('image_directory'), $newFilename);
-                    } catch (\FileException) {
-                        return new Response('something went wrong with upload file...!!');
+                    } catch (FileException $exception) {
+                        return new Response('something went wrong with upload file...!!', $exception);
                     }
                     $product->addImage($imageEntity);
                     $entityManager->persist($product);
@@ -74,12 +81,17 @@ class ProductController extends AbstractController
     #[Route('/{id}/edit', name: 'app_product_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Product $product, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
+        foreach ($product->getImages() as $productPath) {
+            $imageDirectory = $this->parameterBag->get('image_directory');
+            $imagePath = $imageDirectory . '/' . $productPath->getImageName();
+            $productPath->setImage(new UploadedFile($imagePath, $productPath->getImageName()));
+        }
+
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
-        $images = $form->get('images')->getData();
-        //dd($product);
-        if ($form->isSubmitted() && $form->isValid()) {
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $images = $form->get('images')->getData();
             foreach ($images as $image) {
                 $productImage = $image['image'][0];
                 $originalName = pathinfo($productImage->getClientOriginalName(), PATHINFO_FILENAME);
@@ -90,9 +102,9 @@ class ProductController extends AbstractController
                 $imageEntity->setImageName($newFilename);
 
                 try {
-                    $image->move($this->getParameter('image_directory'), $newFilename);
-                } catch (\FileException) {
-                    return new Response('something went wrong with upload file...!!');
+                    $productImage->move($this->getParameter('image_directory'), $newFilename);
+                } catch (FileException $exception) {
+                    return new Response('something went wrong with upload file...!!', $exception);
                 }
 
                 $product->addImage($imageEntity);

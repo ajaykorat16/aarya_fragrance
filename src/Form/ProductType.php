@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Category;
-use App\Entity\Image;
 use App\Entity\Product;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -43,7 +42,6 @@ class ProductType extends AbstractType
                 'entry_options' => ['label' => false],
                 'by_reference' => false,
                 'label' => false,
-                'mapped' => false,
                 'allow_add' => true,
                 'allow_delete' => true,
             ])

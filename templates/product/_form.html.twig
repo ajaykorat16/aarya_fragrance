@@ -22,12 +22,9 @@
         <div class="image d-inline-block" id="image_list" data-prototype="{{ form_widget(form.images.vars.prototype)|e('html_attr') }}">
             {% for imageForm in form.images %}
                 {{ form_row(imageForm.image) }}
-                {% if imageForm.image.vars.value is defined and product.images.count > 0 %}
-                    <div>
-                        <img src="{{ asset('uploads/' ~ imageForm.image.vars.value)  }}" width="100px" height="100px">
-                    </div>
-                {% endif %}
-
+                <div class="mb-3">
+                    <img src="{{ asset("uploads/" ~ imageForm.vars.value.imageName) }}" width="100px" height="100px">
+                </div>
             {% endfor %}
         </div>
     </div>
