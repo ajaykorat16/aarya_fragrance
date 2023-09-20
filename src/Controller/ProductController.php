@@ -9,7 +9,6 @@ use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,29 +38,30 @@ class ProductController extends AbstractController
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
-        $images = $form->get('images')->getData();
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $images = $form->get('images')->getData();
+            foreach ($images as $image) {
+                $productImage = $image->getImage();
+               // dd($productImage);
+                $originalName = pathinfo($productImage->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalName);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $productImage->guessExtension();
+                $imageEntity = new Image();
+                $imageEntity->setImageName($newFilename);
 
-                foreach ($images as $image) {
-                    $productImage = $image['image'][0];
-                    $originalName = pathinfo($productImage->getClientOriginalName(), PATHINFO_FILENAME);
-                    $safeFilename = $slugger->slug($originalName);
-                    $newFilename = $safeFilename . '-' . uniqid() . '.' . $productImage->guessExtension();
-
-                    $imageEntity = new Image();
-                    $imageEntity->setImageName($newFilename);
-
-                    try {
-                        $productImage->move($this->getParameter('image_directory'), $newFilename);
-                    } catch (FileException $exception) {
-                        return new Response('something went wrong with upload file...!!', $exception);
-                    }
-                    $product->addImage($imageEntity);
-                    $entityManager->persist($product);
+                try {
+                    $productImage->move($this->getParameter('image_directory'), $newFilename);
+                } catch (\FileException) {
+                    return new Response('something went wrong with upload file...!!');
                 }
+
+                $product->addImage($imageEntity);
+            }
+
+            $entityManager->persist($product);
             $entityManager->flush();
-            return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_product_index');
         }
 
         return $this->render('product/new.html.twig', [
@@ -81,36 +81,44 @@ class ProductController extends AbstractController
     #[Route('/{id}/edit', name: 'app_product_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Product $product, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
-        foreach ($product->getImages() as $productPath) {
+        foreach ($product->getImages() as $productImage) {
             $imageDirectory = $this->parameterBag->get('image_directory');
-            $imagePath = $imageDirectory . '/' . $productPath->getImageName();
-            $productPath->setImage(new UploadedFile($imagePath, $productPath->getImageName()));
+            $imagePath = $imageDirectory . '/' . $productImage->getImageName();
+            $productImage->setImage(new UploadedFile($imagePath, $productImage->getImageName()));
         }
 
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if($product->getImages()->count() > 0) {
+                foreach ($product->getImages() as $fetchImage) {
+                    $product->removeImage($fetchImage);
+                }
+            }
+
             $images = $form->get('images')->getData();
             foreach ($images as $image) {
-                $productImage = $image['image'][0];
-                $originalName = pathinfo($productImage->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalName);
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $productImage->guessExtension();
+                if ($productImage = $image->getImage()) {
+                    $originalName = pathinfo($productImage->getClientOriginalName(), PATHINFO_FILENAME);
+                    $safeFilename = $slugger->slug($originalName);
+                    $newFilename = $safeFilename . '-' . uniqid() . '.' . $productImage->guessExtension();
+                    $imageEntity = new Image();
+                    $imageEntity->setImageName($newFilename);
 
-                $imageEntity = new Image();
-                $imageEntity->setImageName($newFilename);
-
-                try {
-                    $productImage->move($this->getParameter('image_directory'), $newFilename);
-                } catch (FileException $exception) {
-                    return new Response('something went wrong with upload file...!!', $exception);
+                    try {
+                        $productImage->move($this->getParameter('image_directory'), $newFilename);
+                    } catch (\FileException) {
+                        return new Response('something went wrong with upload file...!!');
+                    }
+                    $product->addImage($imageEntity);
+                } else {
+                    $product->addImage($image);
                 }
-
-                $product->addImage($imageEntity);
             }
-                $entityManager->flush();
-                return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_product_index');
         }
 
         return $this->render('product/edit.html.twig', [
@@ -122,8 +130,11 @@ class ProductController extends AbstractController
     #[Route('/delete/{id}', name: 'app_product_delete')]
     public function delete(Product $product, EntityManagerInterface $entityManager): Response
     {
-            $entityManager->remove($product);
-            $entityManager->flush();
+        foreach ($product->getImages() as $fetchImage) {
+               unlink('uploads/'. $fetchImage->getImageName());
+        }
+        $entityManager->remove($product);
+        $entityManager->flush();
 
         return $this->redirectToRoute('app_product_index');
     }

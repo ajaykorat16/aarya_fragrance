@@ -19,11 +19,12 @@
             {{ form_label(form.category) }}<br>
             {{ form_widget(form.category, {'attr': {'class': 'form-control'}}) }}
         </div>
-        <div class="image d-inline-block" id="image_list" data-prototype="{{ form_widget(form.images.vars.prototype)|e('html_attr') }}">
+        <div class="image d-inline-block" id="image_list" data-index="{{ product.images|length }}" data-prototype="{{ form_widget(form.images.vars.prototype)|e('html_attr') }}">
             {% for imageForm in form.images %}
+                <div class="imagedisplay mb-3">
                 {{ form_row(imageForm.image) }}
-                <div class="mb-3">
                     <img src="{{ asset("uploads/" ~ imageForm.vars.value.imageName) }}" width="100px" height="100px">
+                    <button class="btn btn-dark ms-5"><i class="fa-solid fa-trash text-white"></i></button>
                 </div>
             {% endfor %}
         </div>

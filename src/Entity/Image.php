@@ -17,7 +17,7 @@ class Image
     #[ORM\Column(length: 255)]
     private ?string $imageName = null;
 
-    private ?UploadedFile $image;
+    private ?UploadedFile $image = null;
 
     #[ORM\ManyToOne(inversedBy: 'images')]
     #[ORM\JoinColumn(nullable: false)]
@@ -40,14 +40,14 @@ class Image
         return $this;
     }
 
-    public function getImage(): ?string
+    public function getImage(): ?UploadedFile
     {
         return $this->image;
     }
 
-    public function setImage(?UploadedFile $uploadedFile): self
+    public function setImage(?UploadedFile $image): self
     {
-        $this->image = $uploadedFile;
+        $this->image = $image;
 
         return $this;
     }

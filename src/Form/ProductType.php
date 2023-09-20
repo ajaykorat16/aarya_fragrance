@@ -44,6 +44,7 @@ class ProductType extends AbstractType
                 'label' => false,
                 'allow_add' => true,
                 'allow_delete' => true,
+                'mapped' => $options['data']->getId() !== null,
             ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
