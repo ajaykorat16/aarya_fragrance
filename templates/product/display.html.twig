@@ -1,0 +1,32 @@
+{% extends 'frontbase.html.twig' %}
+
+{% block title %}Products{% endblock %}
+
+{% block body %}
+
+    <div class="content-wrapper">
+    <div class="container mb-5">
+        <h2>Products</h2>
+        <div class="row form-group product-chooser">
+
+        {% for image in images %}
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                <div class="product-chooser-item">
+                    <a class="brand" href="{{ path('app_product_detail', {'id': image.product.id}) }}"><img src="{{ asset('uploads/' ~ image.imageName)  }}" width="120px" height="120px"></a>
+                    <div class="col-xs-8 col-sm-8 col-md-12 col-lg-12">
+                        {% for product in products %}
+                            {% if image.product.id == product.id %}
+                                <span class="title">{{ product.name }}</span>
+                                <div>{{ product.description }}</div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+        </div>
+    </div>
+    </div>
+
+{% endblock %}

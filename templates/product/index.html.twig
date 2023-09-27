@@ -10,28 +10,40 @@
 {% endblock %}
 
 {% block body %}
+<div class="serarch-form">
+    {{form_start(searchForm)}}
+    <div class="row">
+        <div class="col-md-3 mt-2">
+            {{ form_row(searchForm.search) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(searchForm.submit) }}
+        </div>
+    </div>
+    {{form_end(searchForm)}}
+    <a href="{{ path('app_product_index') }}">Refresh</a>
+</div>
+
 <div class="table-responsive">
     <table class="table border mb-0">
         <thead class="table-dark">
             <tr class="align-middle">
                 <th class="text-center">Id</th>
                 <th class="text-center">Name</th>
-                <th class="text-center">Short_description</th>
+                <th class="text-center">Description</th>
                 <th class="text-center">Price</th>
                 <th class="text-center">Category</th>
-{#                <th class="text-center">Image</th>#}
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
-        {% for product in products %}
+        {% for product in pagination %}
             <tr class="align-middle">
                 <td class="text-center">{{ product.id }}</td>
                 <td class="text-center">{{ product.name }}</td>
-                <td class="text-center">{{ product.ShortDescription }}</td>
+                <td class="text-center">{{ product.description }}</td>
                 <td class="text-center">{{ product.price }}</td>
                 <td class="text-center">{{ product.category.name }}</td>
-{#                <td class="text-center">{{ product.image }}</td>#}
                 <td>
                     <a href="{{ path('app_product_show', {'id': product.id}) }}"><i class="fa-solid text-dark fa-eye"></i></a>
                     <a href="{{ path('app_product_edit', {'id': product.id}) }}"><i class="fa-solid text-dark fa-pencil"></i></a>
@@ -45,5 +57,15 @@
         {% endfor %}
         </tbody>
     </table>
+
+
+    <div class="row">
+        <div class="col">
+            <div class="navigation mt-3 d-flex justify-content-center">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        </div>
+    </div>
+
 </div>
 {% endblock %}

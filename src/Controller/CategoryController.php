@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Form\CategoryType;
+use App\Form\CustomSearchType;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,12 +17,26 @@ use Symfony\Component\Routing\Annotation\Route;
 class CategoryController extends AbstractController
 {
     #[Route('/', name: 'app_category_index')]
-    public function index(CategoryRepository $categoryRepository): Response
+    public function index(CategoryRepository $categoryRepository,Request $request, PaginatorInterface $paginator): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $form = $this->createForm(CustomSearchType::class, null, ['label' => false]);
+        $form->handleRequest($request);
+
+        $search = null;
+        if ($form->isSubmitted() && $form->isValid()) {
+            $search = $form->get('search')->getData();
+        }
+        $pagination = $paginator->paginate(
+            $categoryRepository->findByCategory($search),
+            $request->get('page', 1),
+            2
+        );
 
         return $this->render('category/index.html.twig', [
             'categories' => $categoryRepository->findAll(),
+            'pagination' => $pagination,
+            'searchForm' => $form->createView(),
         ]);
     }
 

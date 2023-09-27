@@ -21,20 +21,19 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
-//    /**
-//     * @return Product[] Returns an array of Product objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findByProduct($search)
+    {
+
+        $qb = $this->createQueryBuilder('p');
+        if ($search) {
+            $qb->Where('p.name LIKE :val')
+                ->setParameter('val', '%' . $search . '%');
+        }
+        $qb->getQuery()
+            ->getResult();
+
+        return $qb;
+    }
 
 //    public function findOneBySomeField($value): ?Product
 //    {

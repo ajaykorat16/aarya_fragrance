@@ -19,7 +19,7 @@ class Product
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $short_description = null;
+    private ?string $description = null;
 
     #[ORM\Column]
     private ?int $price = null;
@@ -53,14 +53,14 @@ class Product
         return $this;
     }
 
-    public function getShortDescription(): ?string
+    public function getDescription(): ?string
     {
-        return $this->short_description;
+        return $this->description;
     }
 
-    public function setShortDescription(string $short_description): self
+    public function setDescription(string $description): self
     {
-        $this->short_description = $short_description;
+        $this->description = $description;
 
         return $this;
     }

@@ -1,0 +1,33 @@
+<?php
+
+
+namespace App\Controller;
+
+
+use App\Entity\Product;
+use App\Repository\ImageRepository;
+use App\Repository\ProductRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+class FrontEndProductController extends AbstractController
+{
+    #[Route('/products', name: 'app_product_display')]
+    public function display(ProductRepository $productRepository,ImageRepository $imageRepository): Response
+    {
+        return $this->render('product/display.html.twig',[
+            'products' =>$productRepository->findAll(),
+            'images' =>$imageRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/product/{id}/detail', name: 'app_product_detail', methods: ['GET'])]
+    public function detail(Product $product,ImageRepository $image): Response
+    {
+        return $this->render('product/detail.html.twig', [
+            'product' => $product,
+            'image' => $image->findAll(),
+        ]);
+    }
+}

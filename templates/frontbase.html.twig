@@ -28,42 +28,28 @@
         <script src="{{ asset('js/image.js') }}"></script>
         <script src="{{ asset('fontawesome/js/all.js')}}"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     {% endblock %}
 </head>
 <body>
 <div class="wrapper">
-    {% if app.user %}
-        {{ include('_partials/sidebar.html.twig') }}
-        {{ include('_partials/navbar.html.twig') }}
-    {% endif %}
+        {{ include('frontEndProduct/navbar.html.twig') }}
+
     <div class="content-wrapper">
         <div class="content-header container-fluid mb-3 d-flex justify-content-between">
             <div>
                 <h1>{% block page_title %}{% endblock %}</h1>
             </div>
-            <div>
-                {% block create %}{% endblock %}
-            </div>
         </div>
-        {% for flash_message in app.flashes('warning') %}
-            <div class="d-flex justify-content-center ">
-                <div class="alert alert-danger w-50 text-center">
-                    {{ flash_message }}
-                </div>
-            </div>
-        {% endfor %}
         <section class="content">
-{#            {% if app.user is not defined or app.user is null %}#}
-            {% block frontEnd %}{% endblock %}
-{#            {% endif %}#}
             <div class="container-fluid">
                 {% block body %}{% endblock %}
             </div>
         </section>
     </div>
 </div>
-{% if app.user %}
-    {{ include('_partials/footer.html.twig') }}
-{% endif %}
+    {{ include('frontEndProduct/footer.html.twig') }}
 </body>
 </html>

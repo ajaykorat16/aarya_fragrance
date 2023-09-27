@@ -10,6 +10,20 @@
 {% endblock %}
 
 {% block body %}
+<div class="serarch-form">
+    {{form_start(searchForm)}}
+    <div class="row">
+        <div class="col-md-3 mt-2">
+            {{ form_row(searchForm.search) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(searchForm.submit) }}
+        </div>
+    </div>
+    {{form_end(searchForm)}}
+    <a href="{{ path('app_product_index') }}">Refresh</a>
+</div>
+
 <div class="table-responsive">
     <table class="table border mb-0">
         <thead class="table-dark">
@@ -20,7 +34,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for category in categories %}
+        {% for category in pagination %}
             <tr class="align-middle">
                 <td class="text-center">{{ category.id }}</td>
                 <td class="text-center">{{ category.name }}</td>
@@ -37,5 +51,14 @@
         {% endfor %}
         </tbody>
     </table>
+
+    <div class="row">
+        <div class="col">
+            <div class="navigation mt-3 d-flex justify-content-center">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        </div>
+    </div>
+
 </div>
 {% endblock %}

@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Image;
 use App\Entity\Product;
+use App\Form\CustomSearchType;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -23,12 +25,26 @@ class ProductController extends AbstractController
     ) {}
 
     #[Route('/list', name: 'app_product_index')]
-    public function index(ProductRepository $productRepository): Response
+    public function index(ProductRepository $productRepository, Request $request, PaginatorInterface $paginator): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+//        $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
+        $form = $this->createForm(CustomSearchType::class, null, ['label' => false]);
+        $form->handleRequest($request);
+
+        $search = null;
+        if ($form->isSubmitted() && $form->isValid()) {
+            $search = $form->get('search')->getData();
+        }
+        $pagination = $paginator->paginate(
+            $productRepository->findByProduct($search),
+            $request->get('page', 1),
+            2
+        );
         return $this->render('product/index.html.twig', [
             'products' => $productRepository->findAll(),
+            'pagination' => $pagination,
+            'searchForm' => $form->createView(),
         ]);
     }
 
@@ -43,7 +59,6 @@ class ProductController extends AbstractController
             $images = $form->get('images')->getData();
             foreach ($images as $image) {
                 $productImage = $image->getImage();
-               // dd($productImage);
                 $originalName = pathinfo($productImage->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalName);
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $productImage->guessExtension();
@@ -69,6 +84,7 @@ class ProductController extends AbstractController
             'form' => $form,
         ]);
     }
+
 
     #[Route('/{id}', name: 'app_product_show', methods: ['GET'])]
     public function show(Product $product): Response
