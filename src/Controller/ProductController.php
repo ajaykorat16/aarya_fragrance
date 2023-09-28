@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-#[Route('/product')]
+#[Route('/admin/product')]
 class ProductController extends AbstractController
 {
     public function __construct(
@@ -27,7 +27,7 @@ class ProductController extends AbstractController
     #[Route('/list', name: 'app_product_index')]
     public function index(ProductRepository $productRepository, Request $request, PaginatorInterface $paginator): Response
     {
-//        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         $form = $this->createForm(CustomSearchType::class, null, ['label' => false]);
         $form->handleRequest($request);
@@ -39,7 +39,7 @@ class ProductController extends AbstractController
         $pagination = $paginator->paginate(
             $productRepository->findByProduct($search),
             $request->get('page', 1),
-            2
+            $this->getParameter('page_limit')
         );
         return $this->render('product/index.html.twig', [
             'products' => $productRepository->findAll(),

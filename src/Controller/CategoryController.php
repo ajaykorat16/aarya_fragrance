@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/category')]
+#[Route('/admin/category')]
 class CategoryController extends AbstractController
 {
     #[Route('/', name: 'app_category_index')]
@@ -30,7 +30,7 @@ class CategoryController extends AbstractController
         $pagination = $paginator->paginate(
             $categoryRepository->findByCategory($search),
             $request->get('page', 1),
-            2
+            $this->getParameter('page_limit')
         );
 
         return $this->render('category/index.html.twig', [

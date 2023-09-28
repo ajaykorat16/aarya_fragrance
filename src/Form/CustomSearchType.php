@@ -15,6 +15,9 @@ class CustomSearchType extends AbstractType
             ->add('search', TextType::class, [
                 'required' => false,
                 'label' => false,
+                "attr" => [
+                    "class" => 'form-control'
+                ],
             ])
             ->add('submit', SubmitType::class, [
                 "attr" => [

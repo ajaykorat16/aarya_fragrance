@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class FrontEndProductController extends AbstractController
 {
-    #[Route('/products', name: 'app_product_display')]
+    #[Route('/', name: 'app_product_display')]
     public function display(ProductRepository $productRepository,ImageRepository $imageRepository): Response
     {
         return $this->render('product/display.html.twig',[
