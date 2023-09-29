@@ -8,7 +8,7 @@
     <div class="container mb-5">
         <h2>Products</h2>
         <div class="row form-group product-chooser">
-            {% for image in images %}
+            {% for image in pagination %}
                 <div class="col-4">
                     <div class="product-chooser-item">
                         <a href="{{ path('app_product_detail', {'id': image.product.id}) }}"><img src="{{ asset('uploads/' ~ image.imageName)  }}" width="150px" height="150px"></a>
@@ -23,6 +23,13 @@
                     </div>
                 </div>
             {% endfor %}
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="navigation mt-3 d-flex justify-content-center">
+                    {{ knp_pagination_render(pagination) }}
+                </div>
+            </div>
         </div>
     </div>
 </div>
