@@ -6,6 +6,7 @@ use App\Entity\Image;
 use App\Entity\Product;
 use App\Form\CustomSearchType;
 use App\Form\ProductType;
+use App\Repository\ImageRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -87,9 +88,10 @@ class ProductController extends AbstractController
 
 
     #[Route('/{id}', name: 'app_product_show', methods: ['GET'])]
-    public function show(Product $product): Response
+    public function show(Product $product,ImageRepository $imageRepository): Response
     {
         return $this->render('product/show.html.twig', [
+            'image' =>$imageRepository->findAll(),
             'product' => $product,
         ]);
     }

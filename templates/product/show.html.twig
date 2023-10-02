@@ -24,8 +24,18 @@
                 <td>{{ product.price }}</td>
             </tr>
             <tr>
-                <th>Category_id</th>
-                <td>{{ product.category.name }}</td>
+                <th>Category</th>
+                <td>{{ product.category.name }}
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td>
+                {% for images in image %}
+                {% if images.product.id == product.id %}
+                        <img src="{{ asset('uploads/' ~ images.imageName)  }}" width="100px" height="100px" class="ms-2">
+                {% endif %}
+                {% endfor %}
+                </td>
             </tr>
         </tbody>
     </table>

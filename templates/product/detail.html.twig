@@ -45,22 +45,22 @@
         </div>
 
         <div>
-            <div class="row mb-3">
-                <div class="col font-weight-bold">Name</div>
-                <div class="col">{{ product.name }}</div>
-            </div>
-            <div class="row mb-3">
-                <div class="col font-weight-bold">Price</div>
-                <div class="col">{{ product.price }}</div>
-            </div>
-            <div class="row mb-3">
-                <div class="col font-weight-bold">Category</div>
-                <div class="col">{{ product.category.name }}</div>
-            </div>
-            <div class="row mb-3">
-                <div class="col font-weight-bold">Description</div>
-                <div class="col text-justify">{{ product.description }}</div>
-            </div>
+            <p class="mb-3">
+                <strong>Name:</strong>
+                {{ product.name }}
+            </p>
+            <p class="mb-3">
+                <strong>Price:</strong>
+                {{ product.price }}
+            </p>
+            <p class="mb-3">
+                <strong>Category:</strong>
+                {{ product.category.name }}
+            </p>
+            <p class="mb-3 text-justify">
+                <strong>Description:</strong>
+                {{ product.description }}
+            </p>
         </div>
     </div>
 
